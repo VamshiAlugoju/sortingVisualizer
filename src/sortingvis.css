@@ -9,14 +9,39 @@
 
 .arr-block{
    display: inline-block;
-    width: 4px;
+   /* position: absolute; */
+   top: 500px;
+    width: 10px;
     margin: 0 1px;
-    background-color: blue;
+    background-color: white;
+    border:1px solid black;
+    transition:  0.1s;
+    border-top-left-radius: 10px ;
+    border-top-right-radius: 10px ;
+
 }
  
 .array-bars{
-   
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    /* height: 100%; */
+}
+
+.left-div{
+    height: 80vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+.inputbar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   padding-top: 2rem;
+}
+
+.inputbar h3{
+  margin: 1rem auto 0.5rem;
+  height: 40px;
 }

@@ -4,7 +4,7 @@ import "./App.css"
  const Navbar=(props,ref)=>{
 
  
-    const [slideval,setslideval] = React.useState(100)
+    const [slideval,setslideval] = React.useState(50)
 
        function handlechange(e)
        {
@@ -12,8 +12,7 @@ import "./App.css"
           props.setslidevalue(slideval)
          
        }
-
-    
+ 
 
     return(
         <>
@@ -26,8 +25,7 @@ import "./App.css"
                 <li className="navitems"><button  onClick={props.bubble} className=' navbuttons' href="">  merge sort </button></li>
                  <li>  <div className="size">
                                <span>size</span>
-                               <span><input onChange={handlechange} type="range" min={50} max={150} value={slideval} /></span>
-                      
+                               <span><input onChange={handlechange} type="range" min={10} max={85} value={slideval} /></span>
                     </div> </li>
                   
                  <li className='navitems newarray'> <button onClick={props.newarray} className='btn btn-dark '>New array</button></li>

@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle,useRef } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle,useRef } from "react";
 import "./sortingvis.css";
 import { getMergeSortAnimations } from "./mergesort";
 // import { doquicksort } from "./quicksort";
@@ -7,17 +7,54 @@ const Sortingvis = (props, ref) => {
   const [arr, setarr] = React.useState([]);
   const [size, setsize] = React.useState(props.arrsize);
   
-  const [slidespeed , setslidespeed] = React.useState(100)
-  let speed = slidespeed; 
+  let count = useRef(100)
+ 
 
  
+  //function for resetting array elements
+
+
+
   function reset() {
     const arrr = [];
     for (let i = 1; i <= size; i++) {
-      arrr.push(randomnum(1, 550));
+      arrr.push(randomnum(1, 500));
     }
     setarr(arrr);
+
+    let arrbar = document.getElementsByClassName("arr-block")
+    for(let i = 0;i<arrbar.length;i++)
+    {
+      arrbar[i].style.backgroundColor = "white"
+    }
   }
+
+
+
+  //function for randum numbers generation
+  function randomnum(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+
+  React.useEffect(() => {
+    reset();
+    setsize(props.arrsize)
+  
+  }, [size , props.arrsize]);
+
+
+  // function for some delay
+  function wait( ) {
+    return new Promise((resolve) => {
+         setTimeout(() => {
+        resolve("");
+      }, ans.current);
+    });
+  }
+
+ 
+
 
   // for calling child components from parent
   useImperativeHandle(ref, () => ({
@@ -28,12 +65,8 @@ const Sortingvis = (props, ref) => {
     reset,
    
   }));
-
-  ///useeffect for initial calling
-  React.useEffect(() => {
-    reset();
-    setsize(props.arrsize)
-  }, [size , props.arrsize]);
+ 
+ 
 
   function mergesort() {
     const animations = getMergeSortAnimations(arr);
@@ -59,6 +92,9 @@ const Sortingvis = (props, ref) => {
       }
     }
   }
+
+
+
 
   /// quick sort function
   async function quicksort() {
@@ -90,7 +126,7 @@ const Sortingvis = (props, ref) => {
       i === -1 ? "" : (arrbars[i].style.backgroundColor = "yellow");
 
       arrbars[j].style.backgroundColor = "red";
-      await wait(speed);
+      await wait();
       if (arr[j] < pivot) {
         i === -1 ? "" : (arrbars[i].style.backgroundColor = "blue");
 
@@ -112,15 +148,7 @@ const Sortingvis = (props, ref) => {
     return i + 1;
   }
 
-  /// async function to make some delay
-  let time;
-  function wait(speed) {
-    return new Promise((resolve) => {
-       time =  setTimeout(() => {
-        resolve("");
-      }, speed);
-    });
-  }
+
 
   ///bubble sort
 
@@ -147,6 +175,9 @@ const Sortingvis = (props, ref) => {
     }
   }
 
+
+
+  //selection sort
   async function selection() {
     const arrbars = document.getElementsByClassName("arr-block");
 
@@ -161,7 +192,7 @@ const Sortingvis = (props, ref) => {
           arrbars[trackmin].style.backgroundColor = "blue";
           trackmin = min;
         }
-        await wait(speed);
+        await wait();
         arrbars[min].style.backgroundColor = "yellow";
         arrbars[i].style.backgroundColor = "black";
 
@@ -184,24 +215,27 @@ const Sortingvis = (props, ref) => {
     }
   }
 
-
-  function handlespeed(e)
-  {  
-     setslidespeed( e.target.value);
-     speed = slidespeed
-    console.log(speed)
+  const [state,setstate] = React.useState(100)
+  var ans = useRef(100);
+  
+  
+  function handle(e)
+  {
+      setstate(e.target.value)
+       ans.current = e.target.value
+ 
   }
    
-        
+
 
   return (
     <div className="array-container">
 
       <div className="row">
-      <div className="  col-9 " >
+      <div className=" left-div  col-9 " >
         <div className="array-bars " >{arr.map((value, idx) => {
           return (
-            <div style={{ height: `${value}px` }} className="arr-block">
+            <div key={idx} style={{ height: `${value}px` ,backgroundColor:"white"}} className="arr-block">
               {" "}
             </div>
           );
@@ -210,18 +244,19 @@ const Sortingvis = (props, ref) => {
       </div>
  
 
- <div className="speed-inputbar col">
-  
-  <input type="range" onChange={handlespeed} min={1} max={200} value = {slidespeed} />
- </div>
+ <div className="inputbar   col">
+ 
+     <h3>speed</h3>
+ <input type="range" onChange={handle}  min={10} max={1000} value = {state}/>
+   <h3>{state} ms  </h3>
  </div>
 
+ </div>
+ 
     </div>
   );
 
-  function randomnum(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
+ 
 };
 
 export default forwardRef(Sortingvis);
