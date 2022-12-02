@@ -1,8 +1,10 @@
-
+*{
+    overflow-x: hidden;
+}
 .array-container{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+    /* display: flex; 
+     align-items: center; */
+    /* flex-direction: column; */
 }
 
 .arr-block{
@@ -10,4 +12,11 @@
     width: 4px;
     margin: 0 1px;
     background-color: blue;
+}
+ 
+.array-bars{
+   
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
